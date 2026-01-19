@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Portfólio - Sabrina Andrade</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="icon" type="image/png" href="img/favicon.png">
+
+  <!-- Fontes e Ícones -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+  <script src="https://kit.fontawesome.com/a2e0d5b7b2.js" crossorigin="anonymous"></script>
+
+  <!-- === ESTILO DO CHATBOT === -->
+  <style>
+    #chatbot-toggle {
+      position: fixed;
+      bottom: 25px;
+      right: 25px;
+      background-color: #38bdf8;
+      color: rgb(255, 255, 255);
+      border: none;
+      border-radius: 50%;
+      width: 60px;
+      height: 60px;
+      font-size: 28px;
+      cursor: pointer;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+      z-index: 1000;
+    }
+
+    #chatbot-box {
+      display: none;
+      flex-direction: column;
+      position: fixed;
+      bottom: 100px;
+      right: 25px;
+      width: 320px;
+      height: 430px;
+      background: white;
+      border-radius: 15px;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.25);
+      overflow: hidden;
+      z-index: 1000;
+    }
+
+    #chatbot-box.minimized {
+      height: 45px;
+      overflow: hidden;
+    }
+
+    #chatbot-header {
+      background: #38bdf8;
+      color: white;
+      padding: 10px;  
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    #chatbot-header h3 {
+      margin: 0;
+      font-size: 16px;
+    }
+
+    #chatbot-controls {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    #chatbot-controls button {
+      background: none;
+      border: none;
+      color: white;
+      cursor: pointer;
+      font-size: 18px;
+    }
+
+    #language-select {
+      background: #38bdf8;
+      color: white;
+      border: 1px solid white;
+      border-radius: 6px;
+      padding: 4px;
+      cursor: pointer;
+    }
+
+    #chat-messages {
+      flex-grow: 1;
+      padding: 10px;
+      overflow-y: auto;
+      background: #fafafa;
+    }
+
+    .message {
+      margin: 8px 0;
+      padding: 8px 12px;
+      border-radius: 10px;
+      max-width: 80%;
+      word-wrap: break-word;
+    }
+
+    .bot {
+      background: #ecebff;
+      align-self: flex-start;
+    }
+
+    .user {
+      background: #d3f8d3;
+      align-self: flex-end;
+    }
+
+    #chat-input-area {
+      display: flex;
+      border-top: 1px solid #ccc;
+      padding: 8px;
+      gap: 5px;
+    }
+
+    #chat-input {
+      flex-grow: 1;
+      padding: 6px;
+      border-radius: 10px;
+      border: 1px solid #ccc;
+    }
+
+    #send-btn {
+      background: #38bdf8;
+      border: none;
+      color: white;
+      border-radius: 8px;
+      padding: 0 10px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+
+<body>
+  <!-- NAVBAR -->
+  <header>
+    <nav class="navbar">
+      <ul class="nav-links">
+        <li><a href="#home">Início</a></li>
+        <li><a href="sobre.html">Sobre</a></li>
+        <li><a href="#projects">Projetos</a></li>
+        <li><a href="contato.html">Contato</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- HOME -->
+  <section id="home" class="hero">
+    <div class="hero-content">
+      <h1>👋 Olá, eu sou <span>Sabrina Andrade</span></h1>
+      <p>Analista de Dados | SQL Server | Power BI | Python | HTML </p>
+      <div class="hero-buttons">
+        <a href="#projects" class="btn">Ver Projetos</a>
+        <a href="docs/SABRINA_ANDRADE_CV.pdf" class="btn btn-outline">Baixar Currículo</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <p>© 2025 Sabrina Andrade</p>
+  </footer>
+
+  <!-- ==== CHATBOT ==== -->
+<button id="chatbot-toggle">💬</button>
+
+<div id="chatbot-box" class="hidden">
+  <div id="chatbot-header">
+    <span>Assistente da Sabrina 💬</span>
+    <div id="chatbot-controls">
+      <button id="minimize-chat" title="Minimizar">–</button>
+      <button id="close-chat">×</button>
+          <select id="language-select">
+      <option value="pt">PT</option>
+      <option value="en">EN</option>
+    </select>
+    </div>
+  </div>
+
+
+  <div id="chat-messages"></div>
+
+  <div id="chat-input-area">
+    <input id="chat-input" type="text" placeholder="Digite sua mensagem..." />
+    <button id="send-btn">Enviar</button>
+  </div>
+</div>
+
+
+
+ <!-- === CHATBOT SCRIPT === -->
+  <script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const chatbotToggle = document.getElementById("chatbot-toggle");
+    const chatbotBox = document.getElementById("chatbot-box");
+    const chatMessages = document.getElementById("chat-messages");
+    const chatInput = document.getElementById("chat-input");
+    const sendBtn = document.getElementById("send-btn");
+    const minimizeBtn = document.getElementById("minimize-btn");
+    const closeBtn = document.getElementById("close-btn");
+    const languageSelect = document.getElementById("language-select");
+
+    let currentLanguage = "pt";
+
+    // === SAUDAÇÕES ===
+    //  == function getGreeting(lang) {
+   //   return lang === "en"
+     //   ? "Hello! 👋 I'm Sabrina's virtual assistant.\nTell me what you'd like to know, and I'll help you! 😊 I can tell you about her projects, skills, and hobbies."
+       // : "Olá! 👋 Sou a assistente virtual da Sabrina."
+         // "Posso te contar sobre as habilidades, projetos e hobbies dela. O que você quer saber?"; 
+   // }
+    // === EXIBE MENSAGEM ===
+    function addMessage(sender, text) {
+      const msg = document.createElement("div");
+      msg.classList.add("message", sender);
+      msg.innerText = text;
+      chatMessages.appendChild(msg);
+      chatMessages.scrollTop = chatMessages.scrollHeight;
+    }
+
+    // === SAUDAÇÃO INICIAL ===
+    function showGreeting() {
+      chatMessages.innerHTML = "";
+      addMessage("bot", getGreeting(currentLanguage));
+    }
+
+    // === EVENTOS ===
+    chatbotToggle.addEventListener("click", () => {
+      chatbotBox.style.display = "flex";
+      chatbotBox.classList.remove("minimized");
+      showGreeting();
+    });
+
+    closeBtn.addEventListener("click", () => {
+      chatbotBox.style.display = "none";
+    });
+
+    minimizeBtn.addEventListener("click", () => {
+      chatbotBox.classList.toggle("minimized");
+    });
+
+    // === TROCA DE IDIOMA ===
+    languageSelect.addEventListener("change", (e) => {
+      currentLanguage = e.target.value;
+      showGreeting();
+    });
+
+    // === ENVIO DE MENSAGEM ===
+    sendBtn.addEventListener("click", () => {
+      const userText = chatInput.value.trim();
+      if (!userText) return;
+      addMessage("user", userText);
+      chatInput.value = "";
+
+      setTimeout(() => {
+        const reply = currentLanguage === "en"
+          ? "Welcome! Tell me what you'd like to know about Sabrina 😄"
+          : "Seja bem vindo! Me conte o que você gostaria de saber sobre a Sabrina 😄";
+        addMessage("bot", reply);
+      }, 500);
+    });
+  });
+  </script>
+
+
+    <!-- === SCRIPT PRINCIPAL === -->
+  <script src="script.js" defer></script>
+</body>
+
+</html>

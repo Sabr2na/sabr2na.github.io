@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sobre - Sabrina Andrade</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+body {
+  background-color: #0f172a;
+  color: white;
+  font-family: 'Poppins', sans-serif;
+  margin: 5;
+  padding: 50px 15%;
+  min-height: 100vh;
+}
+
+.about-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 60px;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.about-text {
+  flex: 1;
+  text-align: justify;
+  line-height: 1.9;
+  font-size: 1.2em; /* 👈 fonte maior */
+  letter-spacing: 0.3px; /* 👈 leve espaçamento entre letras */
+}
+
+.about-text h1 {
+  text-align: left;
+  font-size: 2.5em;
+  margin-bottom: 70px;
+  color: #fff;
+  padding-bottom: 10px; /* espaço extra interno abaixo do título */
+  display: block;
+
+}
+
+.about-text p {
+  margin-top: 20px; /* garante espaço adicional antes dos parágrafos */
+}
+
+.profile-pic {
+  width: 260px;
+  height: 260px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid #fff;
+  box-shadow: 0 0 25px rgba(255, 255, 255, 0.2);
+  transition: transform 0.4s ease, box-shadow 0.4s ease;
+}
+
+.profile-pic:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 35px rgba(255, 255, 255, 0.3);
+}
+
+
+    .back-home {
+      display: inline-block;
+      margin-top: 60px; /* 👈 aumenta o espaço entre o texto e o botão */
+      color: white;
+      text-decoration: none;
+      font-weight: bold;
+      border: 1px solid white;
+      padding: 10px 20px;
+      border-radius: 8px;
+      transition: 0.3s;
+    }
+
+    .back-home:hover {
+      background-color: white;
+      color: #0f172a;
+    }
+
+    @media (max-width: 850px) {
+      .about-section {
+        flex-direction: column-reverse;
+        text-align: center;
+      }
+      .about-text {
+        text-align: center;
+      }
+    }
+  </style>
+</head>
+<body>
+  <h1>Sobre Mim</h1>
+
+  <div class="about-container">
+    <div class="about-text">
+          <p>
+        Olá! 👋 Sou <strong>Sabrina Andrade</strong>, analista de dados apaixonada por transformar informações em decisões estratégicas.
+        Tenho experiência com <strong>modelagem de dados</strong>, <strong>SQL Server</strong>, <strong>Power BI</strong> e <strong>Python</strong>, sempre buscando unir técnica e propósito em meus projetos.
+      </p>
+      <p>
+        Além da parte técnica, acredito que os dados contam histórias — e é isso que mais me motiva: extrair valor real por meio da análise e visualização.
+        Aqui no meu portfólio, você encontrará projetos que unem <strong>Business Intelligence</strong>, <strong>engenharia de dados</strong> e <strong>automação</strong>, com foco em gerar impacto e eficiência.
+      </p>
+      <p>
+        Fora do mundo dos dados, sou apaixonada por <strong>trilhas</strong> e pela <strong>natureza</strong> 🌿 — experiências que me ajudam a manter o foco e a criatividade.
+      </p>
+    </div>
+
+    <img src="imagem/foto.jpg" alt="Foto de Sabrina Andrade" class="profile-pic">
+
+  </div>
+
+  <a href="index.html" class="back-home">⬅ Voltar para o início</a>
+
+
+<script src="script.js"></script>
+
+
+</body>
+</html>
